@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JOB PROFILING by Sourcing Department</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+         .header-bar {
+            background-color: #003366;
+            color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1050; /* Pastikan lebih tinggi dari elemen lain */
+        }
+
+
+
+        .header-main-container {
+            display: flex;
+            align-items: center;
+            gap: 20px; 
+        }
+
+        .header-logo {
+            width: 150px;
+            height: auto;
+            margin-left: 90px;
+            margin-right: 1300px;
+        }
+
+        /* Jika layar lebih kecil dari 1024px (misalnya laptop lebih kecil), kurangi margin-right */
+          @media (max-width: 1024px) {
+        .header-logo {
+            width: 120px;
+            height: auto;
+            margin-left: 30px;
+            margin-right: 550px;
+          }
+        }
+
+        .header-text {
+            text-align: left;
+        }
+
+        .header-main {
+    font-size: 28px; /* Ukuran default besar */
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 1400px) {
+    .header-main {
+        font-size: 25px; /* Lebih kecil di HP */
+        letter-spacing: 0.3px; /* Spasi sedikit lebih rapat */
+    }
+}
+
+
+        .header-subtitle {
+            font-size: 14px; /* Slightly larger subtitle */
+            font-style: sans-serif; /* Adding emphasis */
+            word-spacing: 5px; /* Adjust spacing between words */
+            letter-spacing: 3px; /* Adjust spacing between letters */
+            margin-top: -5px;
+        }
+
+        /* Jika layar lebih kecil dari 1024px (misalnya laptop lebih kecil), kurangi word-spacing dan letter-spacing */
+          @media (max-width: 1024px) {
+        .header-subtitle {
+          word-spacing: 0,7px; /* Sesuaikan agar lebih dekat */
+          letter-spacing: 1px; /* Sesuaikan agar lebih dekat */
+          }
+        }
+        .container {
+            width: 90%;
+            margin: 20px auto;
+        }
+        .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 80px;
+    z-index: 1040;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Style dropdown */
+.custom-dropdown {
+    flex: 1;
+    min-width: 200px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Style dropdown select */
+.custom-dropdown select {
+    width: 100%;
+    padding: 10px;
+    font-size: 12px;
+    border: 2px solid #003366;
+    border-radius: 8px;
+    background-color: white;
+    color: #555;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+/* Layar max 1400px: Semua dropdown sejajar */
+@media (max-width: 1400px) {
+    .custom-dropdown {
+        flex: 1 1 calc(20% - 10px); /* Bagi 5 kolom sejajar */
+        min-width: 150px;
+    }
+}
+
+
+
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .job-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #003366;
+        }
+        .info {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+/* Font lebih kecil di layar kecil */
+@media (max-width: 1400px) {
+    .info {
+        font-size: 12px;
+    }
+}
+
+        .client {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+/* Font lebih kecil sedikit untuk layar di bawah 1400px */
+@media (max-width: 1400px) {
+    .client {
+        font-size: 14px;
+    }
+}
+
+.demographic-highlight {
+        background-color: lightgreen;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 18px; /* Ukuran default */
+        font-weight: bold;
+    }
+
+    /* Font lebih kecil untuk layar di bawah 1400px */
+    @media (max-width: 1400px) {
+        .demographic-highlight {
+            font-size: 14px;
+        }
+    }
+
+    .sourcing-highlight {
+        background-color: lightblue;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 18px; /* Ukuran default */
+        font-weight: bold;
+    }
+
+    /* Font lebih kecil di layar 1400px ke bawah */
+    @media (max-width: 1400px) {
+        .sourcing-highlight {
+            font-size: 14px;
+        }
+    }
+         .section {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+.row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px; /* Sedikit lebih longgar biar nggak dempet */
+}
+
+.label {
+    font-weight: bold;
+    font-size: 14px;
+    min-width: 200px;
+}
+
+.data {
+    font-weight: normal;
+    color: #555;
+}
+
+pre {
+    white-space: pre-wrap;
+    font-size: 16px;
+    color: #555;
+    font-family: Arial, sans-serif;
+}
+
+.data a {
+    font-size: 16px; /* Ukuran normal */
+}
+
+/* Ukuran lebih besar dan tetap rapi di layar 1400px ke bawah */
+@media (max-width: 1400px) {
+    .label {
+        font-size: 13px;
+        min-width: 270px;
+    }
+
+.data {
+    font-size: 13px;
+    min-width: 560px;
+    max-width: 100%; /* Biar fleksibel kalau layar kecil */
+    word-break: keep-all; /* Tetap utuh kata kalau ada spasi */
+    overflow-wrap: break-word; /* Wrap kalau terlalu panjang */
+    white-space: normal; /* Bisa turun ke baris baru */
+    line-height: 1.4; /* Jarak antar baris lebih enak dibaca */
+}
+
+
+
+    .row {
+    display: flex;
+    align-items: flex-start; /* Biar atasnya sejajar */
+    gap: 5px; /* Jarak kecil antara label dan data */
+    margin-bottom: 5px;
+}
+
+.data a {
+    font-size: 28px; /* Ukuran link lebih kecil */
+    max-width: 500px; /* Batas panjang maksimal */
+    overflow-wrap: anywhere; /* Pecah teks di mana pun kalau kepanjangan */
+    white-space: normal; /* Boleh turun ke baris baru */
+    display: inline-block; /* Tetap sejajar dengan teks lain */
+    vertical-align: top; /* Biar sejajar di atas */
+}
+
+
+
+
+}
+
+
+
+
+
+
+
+        .details {
+            display: none;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            line-height: 1.7;
+            font-family: 'Arial', sans-serif; /* Change this to your preferred font */
+        }
+
+        .details.active {
+            display: block;
+        }
+
+        .details p {
+        font-size: 16px;
+        color: #333;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .responsive-pre {
+        white-space: pre-wrap;
+        font-size: 15px;
+        color: #555;
+        font-weight: normal;
+    }
+
+    /* Responsif untuk layar kecil */
+    @media (max-width: 1400px) {
+        .details p {
+            font-size: 14px;
+        }
+
+        .responsive-pre {
+            font-size: 12px;
+        }
+    }
+
+        strong {
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    color: #333;
+    font-size: 16px; /* Ukuran default */
+}
+
+/* Perbesar sedikit di layar 1400px ke bawah */
+@media (max-width: 1400px) {
+    strong {
+        font-size: 18px;
+    }
+}
+
+
+        .show-more {
+            color: #1d71b8;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .show-more:hover {
+            color: #155a8a;
+        } 
+    </style>
+</head>
+<body>
+
+    <div class="header-bar">
+        <div class="header-main-container">
+            <img src="https://res.cloudinary.com/djo0ewqoz/image/upload/v1738670471/rndtkn2ktgy3nuqobujb.png" 
+     alt="Logo" 
+     class="header-logo" 
+     onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=Logo';">
+            <div class="header-text">
+                <div class="header-main">JOB PROFILING</div>
+                <div class="header-subtitle">by Sourcing Department</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="filters">
+            <div class="custom-dropdown">
+                <label for="client-select">Client:</label>
+                <select id="client-select" onchange="updateDropdowns(); filterData();">
+                    <option value="">All Clients</option>
+                </select>
+            </div>
+
+            <div class="custom-dropdown">
+                <label for="area-select">Area:</label>
+                <select id="area-select" onchange="filterData()" disabled>
+                    <option value="">All Areas</option>
+                </select>
+            </div>
+
+            <div class="custom-dropdown">
+                <label for="job-name-select">Job Name:</label>
+                <select id="job-name-select" onchange="filterData()" disabled>
+                    <option value="">All Job Names</option>
+                </select>
+            </div>
+
+            <div class="custom-dropdown">
+                <label for="industry-select">Industry:</label>
+                <select id="industry-select" onchange="filterData()" disabled>
+                    <option value="">All Industries</option>
+                </select>
+            </div>
+
+            <div class="custom-dropdown">
+                <label for="job-parent-select">Job Parent:</label>
+                <select id="job-parent-select" onchange="filterData()" disabled>
+                    <option value="">All Job Parents</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="data-container">
+            <p>Loading data...</p>
+        </div>
+    </div>
+
+    <script>
+        let rawData = [];
+
+        function fetchData() {
+            google.script.run.withSuccessHandler(displayData).getSpreadsheetData();
+        }
+
+        function displayData(data) {
+            rawData = data;
+            populateDropdown('client-select', 'Client', data);
+            renderData(data); // Tampilkan semua data saat pertama kali dimuat
+        }
+
+        function populateDropdown(selectId, key, data, filterValue = null, filterKey = null) {
+            const selectElement = document.getElementById(selectId);
+            selectElement.innerHTML = '<option value="">All ' + key + '</option>';
+            let uniqueValues = new Set();
+
+            data.forEach(row => {
+                if (row[key] && (!filterKey || row[filterKey] === filterValue)) {
+                    uniqueValues.add(row[key]);
+                }
+            });
+
+            uniqueValues.forEach(value => {
+                let option = document.createElement('option');
+                option.value = value;
+                option.textContent = value;
+                selectElement.appendChild(option);
+            });
+
+            selectElement.disabled = uniqueValues.size === 0;
+        }
+
+        function updateDropdowns() {
+            const selectedClient = document.getElementById('client-select').value;
+            if (selectedClient) {
+                const filteredData = rawData.filter(row => row['Client'] === selectedClient);
+                populateDropdown('area-select', 'Area', filteredData);
+                populateDropdown('job-name-select', 'Job Name', filteredData);
+                populateDropdown('industry-select', 'Industry', filteredData);
+                populateDropdown('job-parent-select', 'Job Parent', filteredData);
+            } else {
+                document.getElementById('area-select').disabled = true;
+                document.getElementById('job-name-select').disabled = true;
+                document.getElementById('industry-select').disabled = true;
+                document.getElementById('job-parent-select').disabled = true;
+                renderData(rawData); // Jika Client dikosongkan, tampilkan semua data kembali
+            }
+        }
+
+        function filterData() {
+            const selectedClient = document.getElementById('client-select').value;
+            const selectedArea = document.getElementById('area-select').value;
+            const selectedJobName = document.getElementById('job-name-select').value;
+            const selectedIndustry = document.getElementById('industry-select').value;
+            const selectedJobParent = document.getElementById('job-parent-select').value;
+
+            let filteredData = rawData.filter(row => 
+                (selectedClient === "" || row['Client'] === selectedClient) &&
+                (selectedArea === "" || row['Area'] === selectedArea) &&
+                (selectedJobName === "" || row['Job Name'] === selectedJobName) &&
+                (selectedIndustry === "" || row['Industry'] === selectedIndustry) &&
+                (selectedJobParent === "" || row['Job Parent'] === selectedJobParent)
+            );
+
+            renderData(filteredData);
+        }
+
+        function renderData(data) {
+            const container = document.getElementById('data-container');
+            container.innerHTML = data.length ? data.map(row => `
+                <div class='card'>
+                    <div class='job-name'>${row['Job Name'] || 'N/A'}</div>
+                    <div class="info">${row['Summary Job'] || 'N/A'}</div>
+                    <div class="client">${row['Client'] || 'N/A'}</div>
+                    <strong class="demographic-highlight">Demographic</strong>
+                    <br> <!-- Tambahkan ini untuk memberikan enter -->
+                    <br> <!-- Tambahkan ini untuk memberikan enter -->
+                       <div class="row">
+                        <div class="label">Area</div>
+                        <div class="data">: ${row['Area'] || 'N/A'}</div>
+                        </div>
+                        <div class="row">
+                        <div class="label">Job Parent</div>
+                        <div class="data">: ${row['Job Parent'] || 'N/A'}</div>
+                        </div>
+                        <div class="row">
+                        <div class="label">Min Salary</div>
+                        <div class="data">: ${formatSalary(row['Min Salary'] || 'N/A')}</div>
+                        </div>
+                        <div class="row">
+                        <div class="label">Max Salary</div>
+                        <div class="data">: ${formatSalary(row['Max Salary'] || 'N/A')}</div>
+                        </div>
+
+
+                     <br> <!-- Tambahkan ini untuk memberikan enter -->
+                        <strong class="sourcing-highlight">How to Sourcing</strong>
+                        <br> <!-- Tambahkan ini untuk memberikan enter -->
+                        <br> <!-- Tambahkan ini untuk memberikan enter -->
+                        <div class="row">
+                        <div class="label">Job Portal</div>
+                        <div class="data">: ${row['Job Portal'] || 'N/A'}</div>
+                        </div>
+                        <div class="row">
+                        <div class="label">Media Social</div>
+                        <div class="data">: ${row['Media Social'] || 'N/A'}</div>
+                        </div>
+                        <div class="row">
+                        <div class="label">Xray Google</div>
+                        <div class="data">
+                        : <a href="https://www.google.com/search?q=${encodeURIComponent('site:linkedin.com/in/ ' + (row['Xray_Google'] || ''))}" 
+                        target="_blank";">
+                        ${row['Xray_Google'] || 'N/A'}
+                        </a>
+                        </div> 
+                        </div>
+                        <div class="row">
+                        <div class="label">Semantic Search</div>
+                        <div class="data">: ${row['Similar Name'] || 'N/A'}</div>
+                        </div>  
+
+                        <br> <!-- Tambahkan ini untuk memberikan enter -->
+
+                        <div class="details">
+    <p><strong>Client Description:</strong></p>
+    <pre class="responsive-pre">${row['Client Description'] || 'N/A'}</pre>
+    <p><strong>Requirement:</strong></p>
+    <pre class="responsive-pre">${row['Requirement'] || 'N/A'}</pre>
+    <p><strong>Critical Point:</strong></p>
+    <pre class="responsive-pre">${row['Critical Point'] || 'N/A'}</pre>
+    <p><strong>Sourcing Offline:</strong></p>
+    <pre class="responsive-pre">${row['Sourcing Offline'] || 'N/A'}</pre>
+    <p><strong>Sourcing Partner:</strong></p>
+    <pre class="responsive-pre">${row['Sourcing Partner'] || 'N/A'}</pre>
+
+                    </div>
+                    <div class="show-more" onclick="toggleDetails(this)">Show More</div>
+                            
+                    </div>
+            `).join('') : '<p>No results found</p>';
+        }
+
+           function toggleDetails(element) {
+            const details = element.previousElementSibling;
+            if (details.classList.contains('active')) {
+                details.classList.remove('active');
+                element.textContent = 'Show More';
+            } else {
+                details.classList.add('active');
+                element.textContent = 'Show Less';
+            }
+        }
+
+
+         function formatSalary(salary) {
+            if (salary && !isNaN(salary)) {
+            return parseFloat(salary).toLocaleString();
+            }
+            return salary;
+        }
+        
+        fetchData();
+    </script>
+
+</body>
+</html>
