@@ -33,6 +33,8 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
       margin-bottom: 20px;
     }
     .header-bar img {
@@ -144,6 +146,43 @@
       border-radius: 8px;
       font-size: 14px;
       white-space: pre-wrap;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-bar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .filters {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .custom-dropdown {
+        width: 100%;
+      }
+      .row {
+        flex-direction: column;
+      }
+      .label {
+        width: 100%;
+        margin-bottom: 4px;
+      }
+      .data {
+        width: 100%;
+      }
+      .job-name {
+        font-size: 18px;
+      }
+      .info, .row {
+        font-size: 14px;
+      }
+    }
+
+    @media (min-width: 769px) and (max-width: 1200px) {
+      .custom-dropdown {
+        width: 45%;
+      }
     }
   </style>
 </head>
