@@ -14,19 +14,26 @@
     body {
       font-family: 'Inter', sans-serif;
       background: linear-gradient(135deg, #f9f9fb, #e6f0ff);
-      padding: 20px;
+      padding: 0;
       color: #333;
+    }
+    .sticky-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: linear-gradient(135deg, #f9f9fb, #e6f0ff);
+      padding: 20px;
     }
     .header-bar {
       background-color: #003366;
       color: white;
-      padding: 20px 40px;
+      padding: 20px;
       border-radius: 16px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
     .header-bar img {
       height: 50px;
@@ -47,32 +54,34 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 30px;
       justify-content: flex-start;
     }
     .custom-dropdown {
       background-color: white;
-      border-radius: 50px;
+      border-radius: 30px;
       border: 2px solid #003366;
-      padding: 8px 20px;
+      padding: 8px 16px;
       display: flex;
       flex-direction: column;
-      min-width: 200px;
+      width: 180px;
     }
     .custom-dropdown label {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 600;
       margin-bottom: 4px;
       color: #003366;
     }
     .custom-dropdown select {
       border: none;
-      font-size: 14px;
+      font-size: 13px;
       outline: none;
       background: transparent;
       font-weight: 600;
       color: #333;
       cursor: pointer;
+    }
+    .content {
+      padding: 20px;
     }
     .card {
       background: white;
@@ -139,38 +148,39 @@
   </style>
 </head>
 <body>
-  <div class="header-bar">
-    <img src="https://res.cloudinary.com/djo0ewqoz/image/upload/v1738670471/rndtkn2ktgy3nuqobujb.png" alt="Logo">
-    <div class="header-text">
-      <div class="header-main">JOB PROFILING</div>
-      <div class="header-subtitle">by Sourcing Department</div>
+  <div class="sticky-wrapper">
+    <div class="header-bar">
+      <img src="https://res.cloudinary.com/djo0ewqoz/image/upload/v1738670471/rndtkn2ktgy3nuqobujb.png" alt="Logo">
+      <div class="header-text">
+        <div class="header-main">JOB PROFILING</div>
+        <div class="header-subtitle">by Sourcing Department</div>
+      </div>
+    </div>
+    <div class="filters">
+      <div class="custom-dropdown">
+        <label for="client-select">Client</label>
+        <select id="client-select" onchange="applyFilters()"></select>
+      </div>
+      <div class="custom-dropdown">
+        <label for="area-select">Area</label>
+        <select id="area-select" onchange="applyFilters()"></select>
+      </div>
+      <div class="custom-dropdown">
+        <label for="job-name-select">Job Name</label>
+        <select id="job-name-select" onchange="applyFilters()"></select>
+      </div>
+      <div class="custom-dropdown">
+        <label for="industry-select">Industry</label>
+        <select id="industry-select" onchange="applyFilters()"></select>
+      </div>
+      <div class="custom-dropdown">
+        <label for="job-parent-select">Job Parent</label>
+        <select id="job-parent-select" onchange="applyFilters()"></select>
+      </div>
     </div>
   </div>
 
-  <div class="filters">
-    <div class="custom-dropdown">
-      <label for="client-select">Client</label>
-      <select id="client-select" onchange="applyFilters()"></select>
-    </div>
-    <div class="custom-dropdown">
-      <label for="area-select">Area</label>
-      <select id="area-select" onchange="applyFilters()"></select>
-    </div>
-    <div class="custom-dropdown">
-      <label for="job-name-select">Job Name</label>
-      <select id="job-name-select" onchange="applyFilters()"></select>
-    </div>
-    <div class="custom-dropdown">
-      <label for="industry-select">Industry</label>
-      <select id="industry-select" onchange="applyFilters()"></select>
-    </div>
-    <div class="custom-dropdown">
-      <label for="job-parent-select">Job Parent</label>
-      <select id="job-parent-select" onchange="applyFilters()"></select>
-    </div>
-  </div>
-
-  <div id="data-container">Loading...</div>
+  <div id="data-container" class="content">Loading...</div>
 
   <script>
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1oMEEYwEOwFlhURnn3AitOihQ6JyGib9NCoLVpUyqH8k/gviz/tq?tqx=out:json";
