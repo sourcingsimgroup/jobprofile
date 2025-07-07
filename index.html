@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JOB PROFILING by Sourcing Department</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    .header-bar {
+      background-color: #003366;
+      color: white;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1050;
+    }
+    .header-main-container {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .header-logo {
+      width: 150px;
+      height: auto;
+      margin-left: 90px;
+      margin-right: 1300px;
+    }
+    .header-text {
+      text-align: left;
+    }
+    .header-main {
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+    }
+    .header-subtitle {
+      font-size: 14px;
+      letter-spacing: 3px;
+      margin-top: -5px;
+    }
+    .container {
+      width: 90%;
+      margin: 20px auto;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .job-name {
+      font-size: 18px;
+      font-weight: bold;
+      color: #003366;
+    }
+    .info {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+    .client {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
+    .demographic-highlight {
+      background-color: lightgreen;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .sourcing-highlight {
+      background-color: lightblue;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .row {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+    .label {
+      font-weight: bold;
+      font-size: 14px;
+      min-width: 200px;
+    }
+    .data {
+      color: #555;
+    }
+    .details {
+      display: none;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      line-height: 1.7;
+    }
+    .details.active {
+      display: block;
+    }
+    .details p {
+      font-size: 16px;
+      color: #333;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .responsive-pre {
+      white-space: pre-wrap;
+      font-size: 15px;
+      color: #555;
+    }
+    .show-more {
+      color: #1d71b8;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+    .show-more:hover {
+      color: #155a8a;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-bar">
+    <div class="header-main-container">
+      <img src="https://res.cloudinary.com/djo0ewqoz/image/upload/v1738670471/rndtkn2ktgy3nuqobujb.png" alt="Logo" class="header-logo" onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=Logo';">
+      <div class="header-text">
+        <div class="header-main">JOB PROFILING</div>
+        <div class="header-subtitle">by Sourcing Department</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id="data-container">
+      <p>Loading data...</p>
+    </div>
+  </div>
+
+  <script>
+    const SHEET_URL = "https://docs.google.com/spreadsheets/d/1oMEEYwEOwFlhURnn3AitOihQ6JyGib9NCoLVpUyqH8k/gviz/tq?tqx=out:json";
+
+    function fetchData() {
+      fetch(SHEET_URL)
+        .then(response => response.text())
+        .then(dataText => {
+          const json = JSON.parse(dataText.substr(47).slice(0, -2)); // Clean JSON
+          const cols = json.table.cols.map(col => col.label);
+          const rows = json.table.rows.map(row => {
+            let obj = {};
+            row.c.forEach((cell, i) => {
+              obj[cols[i]] = cell ? cell.v : "";
+            });
+            return obj;
+          });
+          displayData(rows);
+        })
+        .catch(err => {
+          document.getElementById("data-container").innerHTML = "<p>Error loading data</p>";
+          console.error(err);
+        });
+    }
+
+    function formatSalary(salary) {
+      if (salary && !isNaN(salary)) {
+        return parseFloat(salary).toLocaleString();
+      }
+      return salary;
+    }
+
+    function displayData(data) {
+      const container = document.getElementById("data-container");
+      if (!data.length) {
+        container.innerHTML = "<p>No data found.</p>";
+        return;
+      }
+
+      container.innerHTML = data.map(row => `
+        <div class="card">
+          <div class="job-name">${row['Job Name'] || 'N/A'}</div>
+          <div class="info">${row['Summary Job'] || 'N/A'}</div>
+          <div class="client">${row['Client'] || 'N/A'}</div>
+
+          <strong class="demographic-highlight">Demographic</strong>
+          <br><br>
+          <div class="row"><div class="label">Area</div><div class="data">: ${row['Area'] || 'N/A'}</div></div>
+          <div class="row"><div class="label">Job Parent</div><div class="data">: ${row['Job Parent'] || 'N/A'}</div></div>
+          <div class="row"><div class="label">Min Salary</div><div class="data">: ${formatSalary(row['Min Salary'])}</div></div>
+          <div class="row"><div class="label">Max Salary</div><div class="data">: ${formatSalary(row['Max Salary'])}</div></div>
+
+          <br>
+          <strong class="sourcing-highlight">How to Sourcing</strong>
+          <br><br>
+          <div class="row"><div class="label">Job Portal</div><div class="data">: ${row['Job Portal'] || 'N/A'}</div></div>
+          <div class="row"><div class="label">Media Social</div><div class="data">: ${row['Media Social'] || 'N/A'}</div></div>
+          <div class="row"><div class="label">Xray Google</div><div class="data">:
+            <a href="https://www.google.com/search?q=${encodeURIComponent('site:linkedin.com/in/ ' + (row['Xray_Google'] || ''))}" target="_blank">
+              ${row['Xray_Google'] || 'N/A'}
+            </a>
+          </div></div>
+          <div class="row"><div class="label">Semantic Search</div><div class="data">: ${row['Similar Name'] || 'N/A'}</div></div>
+
+          <br>
+          <div class="details">
+            <p><strong>Client Description:</strong></p>
+            <pre class="responsive-pre">${row['Client Description'] || 'N/A'}</pre>
+            <p><strong>Requirement:</strong></p>
+            <pre class="responsive-pre">${row['Requirement'] || 'N/A'}</pre>
+            <p><strong>Critical Point:</strong></p>
+            <pre class="responsive-pre">${row['Critical Point'] || 'N/A'}</pre>
+            <p><strong>Sourcing Offline:</strong></p>
+            <pre class="responsive-pre">${row['Sourcing Offline'] || 'N/A'}</pre>
+            <p><strong>Sourcing Partner:</strong></p>
+            <pre class="responsive-pre">${row['Sourcing Partner'] || 'N/A'}</pre>
+          </div>
+
+          <div class="show-more" onclick="toggleDetails(this)">Show More</div>
+        </div>
+      `).join("");
+    }
+
+    function toggleDetails(el) {
+      const details = el.previousElementSibling;
+      if (details.classList.contains("active")) {
+        details.classList.remove("active");
+        el.textContent = "Show More";
+      } else {
+        details.classList.add("active");
+        el.textContent = "Show Less";
+      }
+    }
+
+    fetchData();
+  </script>
+</body>
+</html>
