@@ -14,7 +14,6 @@
     body {
       font-family: 'Inter', sans-serif;
       background: linear-gradient(135deg, #f9f9fb, #e6f0ff);
-      padding: 0;
       color: #333;
     }
     .sticky-wrapper {
@@ -52,12 +51,27 @@
       font-size: 12px;
       letter-spacing: 2px;
     }
+
+    .filter-toggle {
+      display: none;
+      background-color: #003366;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-bottom: 15px;
+    }
+
     .filters {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       justify-content: flex-start;
     }
+
     .custom-dropdown {
       background-color: white;
       border-radius: 30px;
@@ -82,6 +96,7 @@
       color: #333;
       cursor: pointer;
     }
+
     .content {
       padding: 20px;
     }
@@ -148,15 +163,18 @@
       white-space: pre-wrap;
     }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .header-bar {
-        flex-direction: column;
-        align-items: flex-start;
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .filter-toggle {
+        display: inline-block;
       }
       .filters {
+        display: none;
         flex-direction: column;
-        align-items: stretch;
+        margin-top: 10px;
+      }
+      .filters.show {
+        display: flex;
       }
       .custom-dropdown {
         width: 100%;
@@ -164,24 +182,8 @@
       .row {
         flex-direction: column;
       }
-      .label {
+      .label, .data {
         width: 100%;
-        margin-bottom: 4px;
-      }
-      .data {
-        width: 100%;
-      }
-      .job-name {
-        font-size: 18px;
-      }
-      .info, .row {
-        font-size: 14px;
-      }
-    }
-
-    @media (min-width: 769px) and (max-width: 1200px) {
-      .custom-dropdown {
-        width: 45%;
       }
     }
   </style>
@@ -195,7 +197,8 @@
         <div class="header-subtitle">by Sourcing Department</div>
       </div>
     </div>
-    <div class="filters">
+    <button class="filter-toggle" onclick="toggleFilters()">☰ Filters</button>
+    <div class="filters" id="filters">
       <div class="custom-dropdown">
         <label for="client-select">Client</label>
         <select id="client-select" onchange="applyFilters()"></select>
@@ -222,6 +225,10 @@
   <div id="data-container" class="content">Loading...</div>
 
   <script>
+    function toggleFilters() {
+      document.getElementById("filters").classList.toggle("show");
+    }
+
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1oMEEYwEOwFlhURnn3AitOihQ6JyGib9NCoLVpUyqH8k/gviz/tq?tqx=out:json";
     let allData = [];
 
